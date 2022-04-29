@@ -19,12 +19,21 @@ private_key = os.getenv('EINSTEIN_VISION_PRIVATE_KEY')
 model_id = os.getenv('EINSTEIN_MODEL_ID')
 
 
-def _language(access_token, model_id, msg):
+def _language_intent(access_token, model_id, msg):
     # https://metamind.readme.io/reference#prediction-intent
-    # Returns a sentiment prediction for the given string.
-    sentiment_prediction = language.predict_for_intent(
+    # Returns an intent prediction for the given string.
+
+    predict_for_intent = language.predict_for_intent(
         access_token, model_id, msg)
-    pprint.pprint(sentiment_prediction.json())
+    pprint.pprint(predict_for_intent.json())
+
+
+def _language_entities(access_token, model_id, msg):
+
+    predict_for_entities = language.predict_for_entities(
+        access_token, model_id, msg
+    )
+    pprint.pprint(predict_for_entities.json())
 
 
 def _vision(access_token):
@@ -77,6 +86,7 @@ def get_token():
 
 if __name__ == "__main__":
     access_token = get_token()
-    msg = 'where is my ticket'
-    _language(access_token, model_id, msg)
+    msg = 'need an appointment for Friday night or on Wed at 11'
+    _language_intent(access_token, model_id, msg)
+    # _language_entities(access_token, model_id, msg)
     # _vision(access_token)
